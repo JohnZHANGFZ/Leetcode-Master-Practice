@@ -128,9 +128,48 @@ class Solution {
 有使用Array和Set两种解法
 
 ## 202.快乐数
+使用Set来解决，可以发现这道题中要存储的元素的数量和大小都不固定，固可以使用Set
 
+## 1.两数之和
+用map时如何决定键和值：取决于我们要查找什么，把要查找的设置为key
 
+数组的大小是受限制的，而且如果元素很少，而哈希值太大会造成内存空间的浪费。
 
+set是一个集合，里面放的元素只能是一个key，而两数之和这道题目，不仅要判断y是否存在而且还要记录y的下标位置，因为要返回x 和 y的下标。所以set 也不能用。
 
+四个重点：
+
+* 为什么会想到用哈希表
+	* 因为要查询元素是否出现过 
+* 哈希表为什么用map
+	* 如上，数组和set无法满足需求，数组如果哈希值太大会浪费空间，Set只能放key，却无法保存下标
+
+* 本题map是用来存什么的
+	* 存遍历过的值和对应的下标
+
+* map中的key和value用来存什么的
+	* key用来存值，因为我们需要频繁查询其是否出现过，value用来存其对应的下标，因为乳沟它出现过我们就需要知道它在原数组中的位置
+
+以下是我的实现：
+
+```
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> appear = new HashMap<>();
+        int[] inx = new int[2];
+        for (int i=0; i < nums.length; i++){
+            int res = target - nums[i];
+            appear.put(nums[i], i);
+            if (appear.containsKey(res)){
+                inx[0] = i;
+                inx[1] = appear.get(res);
+                return inx;
+            }
+            
+        }
+        return inx;
+    }
+}
+```
 
 
